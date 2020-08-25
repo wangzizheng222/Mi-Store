@@ -1,0 +1,17 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="Mi-Store:war exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/Mi_Store_war_exploded</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="Mi-Store/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="Mi-Store" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="mysql-connector-java-8.0.16" />
+          <element id="library" level="project" name="gson-2.8.5" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>

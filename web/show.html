@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Show</title>
+    <link type="text/css" rel="stylesheet" href="css/reset.css">
+    <link type="text/css" rel="stylesheet" href="css/show_style.css">
+    <link type="text/css" rel="stylesheet" href="css/foot_style.css">
+    <link type="text/css" rel="stylesheet" href="css/foot.scss">
+    <script type="text/javascript" src="js/vue.js"></script>
+    <script src="https://cdn.staticfile.org/vue-resource/1.5.1/vue-resource.min.js"></script>
+    <script src="js/methods.js"></script>
+</head>
+<body>
+
+<div id="app">
+    <div id="header">
+        <div id="container" style="width: 1226px;margin-left: auto;margin-right: auto">
+            <div class="nav">
+                <span v-for="item in tobarItem">
+                    <a>{{item.name}}</a>
+                    <span style="margin: 0.3em;color: #424242">|</span>
+                </span>
+            </div>
+
+            <div id="shop_car" @mouseenter="carEnter" @mouseleave="carLeave">
+                <span class="icon"></span>
+                购物车（<span>0</span>）
+            </div>
+            <div id="car_expand"  v-show="carStatus" style="line-height: 95px;text-align: center">
+                购物车中还没有商品，赶快选购吧！
+            </div>
+
+            <div class="nav" style="float: right">
+                <span>
+                    <a href="sign_in.html">登录</a>
+                    <span style="margin: 0.3em;color: #424242">|</span>
+                </span>
+                <span>
+                    <a>注册</a>
+                    <span style="margin: 0.3em;color: #424242">|</span>
+                </span>
+                <span>
+                    <a>消息通知</a>
+                    <span style="margin: 0.3em;color: #424242">|</span>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div id="site_header">
+        <div style="width: 1226px;margin-left: auto;margin-right: auto;display: flex;flex-direction: row">
+
+            <!--        两个logo-->
+            <div id="header_logo">
+                <img src="img/logo-mi.png" alt="logo" style="background-repeat: no-repeat;background-size: auto;width: 100%">
+            </div>
+
+            <div id="header_logo_2">
+                <div style="background: url(img/logo_2.gif) no-repeat;margin-top: 19px;width: 165px;height: 55px"></div>
+            </div>
+
+            <!--商品标题-->
+            <div class="siteHeaderItem" v-for="(item,index) in siteHeaderItemsName" @mouseenter="headerItemEnter(index)">
+                {{item.name}}
+            </div>
+
+            <div id="search_group">
+                <form>
+                    <label for="search"></label><input id="search" type="text" placeholder="小米10">
+                </form>
+
+                <div style="width: 48px;height: 48px;margin-top: 25px">
+                    <img id="search_submit" src="img/search.PNG" alt="search">
+                </div>
+            </div>
+        </div>
+
+
+
+        <div id="headerItemInf" v-if="headerItemInf" @mouseleave="headerItemLeave">
+            <div style="display: flex;flex-direction: row;justify-content: center">
+                <div class="itemShow" v-for="(item,index) in siteHeaderItem[headerItemInfSel]">
+                    <div style="margin-top: 40px">
+                        <!--                    <img src="img/header/{{headerItemInfSel}}-{{index}}.jpg">-->
+                        <img :src="siteHeaderItemImg[headerItemInfSel][index]">
+                    </div>
+                    <div style="margin-top: 5px;text-align: center">
+                        {{item.name}}
+                    </div>
+                    <div style="margin-top: 5px;color: #ff6700;text-align: center">
+                        {{item.price}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div style="height: 60px;width: 100%;display: flex;flex-direction: row;box-shadow: 0 4px 14px rgba(0,0,0,.15);" >
+        <div style="line-height: 60px;font-size: 18px;margin-left: 120px;color: #424242;">
+            {{data.name}}
+        </div>
+        <div style="display: flex;flex-direction: row;height: 60px;margin-left: 850px" id="title">
+            <div style="line-height: 60px">
+                概述|
+            </div>
+            <div style="line-height: 60px">
+                F码通道|
+            </div>
+            <div style="line-height: 60px">
+                咨询客服|
+            </div>
+            <div style="line-height: 60px">
+                用户评价
+            </div>
+        </div>
+    </div>
+
+    <div id="show">
+        <div id="img_show">
+            <img :src="itemImg[parseInt(type)-1][id]" height="560px" width="560px">
+        </div>
+        <div id="buy_show">
+            <div id="name">
+                {{data.name}}
+            </div>
+            <div id="detail">
+                {{data.detail}}
+            </div>
+            <div id="price">
+                {{data.price[version]}}元
+            </div>
+            <div style="text-align: left;font-size: 20px;margin-top: 20px">
+                选择版本
+            </div>
+            <div id="version">
+                <div v-for="(item,index) in data.version" :class={"sel":index===version,"no_sel":index!==version}
+                @click="sel_version(index)">
+<!--8GB+256GB,8GB+128GB,12GB+256GB,16GB+512GB-->
+                    {{item}}
+                </div>
+            </div>
+            <div style="text-align: left;font-size: 20px;margin-top: 20px">
+                选择颜色
+            </div>
+            <div id="color">
+                <div v-for="(item,index) in data.color" :class={"sel":index===color,"no_sel":index!==color}
+                @click="sel_color(index)">
+                    {{item}}
+                </div>
+            </div>
+            <div id="inf">
+                <div style="font-size: 14px;float: top;height: 36px">
+                    <span style="float: left">
+                        {{data.name}} {{data.version[version]}} {{data.color[color]}}
+                    </span>
+                    <span style="float: right">
+                        {{data.price[version]}}元
+                    </span>
+                </div>
+                <div style="font-size: 22px;color: red;float: bottom;height: 44px">
+                    总计：{{data.price[version]}}元
+                </div>
+            </div>
+            <div id="buy">
+                <div style="width: 300px;background-color: #ff6700;color: white">
+                    加入购物车
+                </div>
+                <div style="width: 150px;background-color: #b0b0b0;color: white;margin-left: 10px">
+                    喜欢
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="service">
+            <a :href="item.link" v-for="(item,index) in service" :key="index">
+                <span class="iconfont">{{item.unicode}}</span>
+                <span class="text">{{item.text}}</span>
+            </a>
+        </div>
+        <div class="link">
+            <div class="item" v-for="(item,index) in link" :key="index">
+                <span class="title">{{item.title}}</span>
+                <a :href="key.link" v-for="(key,index) in item.text" :key="index">
+                    <span>{{key.title}}</span>
+                </a>
+            </div>
+            <div class="contact">
+                <span class="number">400-100-5678</span>
+                <span class="text">周一至周日 8:00-18:00<br>（仅收市话费）</span>
+                <span class="customer">人工客服</span>
+            </div>
+        </div>
+        <div class="info">
+            <div class="info-container">
+                <div class="text">
+                    <p style="margin-bottom: 10px">小米商城|MIUI|米聊|多看书城|小米路由器|视频电话|小米天猫店|小米淘宝直营店|小米网盟|小米移动|隐私政策|Select Region</p>
+                    <p>©mi.com 京ICP证110507号 京ICP备10046444号 京公网安备11010802020134号 京网文[2014]0059-0009号 </p>
+                    <p>（京）网械平台备字（2018）第00005号 互联网药品信息服务资格证 (京)-非经营性-2014-0090 营业执照 医疗器械质量公告</p>
+                    <p>增值电信业务许可证 网络食品经营备案 京食药网食备201810017   食品经营许可证</p>
+                    <p>违法和不良信息举报电话：185-0130-1238，本网站所列数据，除特殊说明，所有数据均出自我司实验室测试</p>
+                </div>
+                <div class="info-logo">
+                    <img class="info-logo" src="assets/info-logo-1.png">
+                    <img class="info-logo" src="assets/info-logo-2.png">
+                    <img class="info-logo" src="assets/info-logo-3.png">
+                    <img class="info-logo" src="assets/info-logo-4.png">
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+
+</body>
+
+<script>
+    var vm=new Vue({
+        el: '#app',
+        data:{
+            tobarItem:[
+                {name: '小米商城'},
+                {name: 'MIUI'},
+                {name: 'loT'},
+                {name: '云服务'},
+                {name: '金融'},
+                {name: '有品'},
+                {name: '小爱开放平台'},
+                {name: '企业团购'},
+                {name: '资质执照'},
+                {name: '协议规则'},
+                {name: '下载app'},
+                {name: 'Select Region'}
+            ],
+            siteHeaderItemsName:[
+                {name:'小米手机'},
+                {name:'Redmi'},
+                {name:'电视'},
+                {name:'笔记本'},
+                {name:'家电'},
+                {name:'路由器'},
+                {name:'智能硬件'},
+                {name:'服务'},
+                {name:'社区'},
+            ],
+            siteHeaderItem:[
+                [
+                    {name:'小米10至尊纪念版', price:'5299元起'},
+                    {name:'小米10 pro', price: '4999元起'},
+                    {name:'小米10', price: '3699元起'},
+                    {name:'小米10 青春版 5G', price: '1899元起'},
+                    {name:'小米MIX Alpha', price: '19999元起'},
+                ],
+                [
+                    {name: 'Redmi K30 至尊纪念版',price: '1999元起'},
+                    {name: 'Redmi K30 Pro 系列',price: '2699元起'},
+                    {name: 'Redmi K30 系列',price: '1399元起'},
+                    {name: 'Redmi 10X 5G',price: '1599元起'},
+                    {name: 'Redmi Note 8',price: '899元起'},
+                    {name: 'Redmi 9',price: '799元起'},
+                ],
+                [
+                    {name: '小米透明电视',price: '49999元'},
+                    {name: '小米电视 大师 65英寸OLED',price: '12999元'},
+                    {name: 'Redmi 智能电视 MAX 98"',price: '19999元'},
+                    {name: '小米电视4A 60英寸',price: '2199元'},
+                    {name: 'Redmi 智能电视 X55',price: '2199元'},
+                    {name: 'Redmi 红米电视 70英寸 R70A',price: '2999元'},
+                ],
+                [
+                    {name: 'RedmiBook 16',price: '4999元起'},
+                    {name: 'RedmiBook 14 Ⅱ',price: '4699元起'},
+                    {name: 'Pro 15.6" 2020款',price: '5999元起'},
+                    {name: '小米笔记本Air 13.3"',price: '5699元起'},
+                    {name: '小米游戏本',price: '6499元起'},
+                    {name: '显示器',price: '2199元'},
+                ],
+                [
+                    {name: '米家互联网空调C1（一级能效）',price: '1999元'},
+                    {name: '米家互联网空调（一级能效）',price: '1999元'},
+                    {name: 'Redmi全自动波轮洗衣机1A',price: '849元'},
+                    {name: '米家互联网洗烘一体机10kg',price: '2099元'},
+                    {name: '米家风冷对开门冰箱 483L',price: '2288元'},
+                    {name: '米家两门冰箱 160L',price: '929元'},
+                ],
+                [
+                    {name: 'Redmi路由器 AX6',price: '399元'},
+                    {name: 'Redmi路由器 AX5',price: '249元'},
+                    {name: '小米路由器 AX1800',price: '329元'},
+                    {name: '小米AIoT路由器AX3600',price: '599元'},
+                    {name: 'Redmi路由器AC2100',price: '169元'},
+                    {name: '小米路由器AC2100',price: '229元'},
+                ],
+                [
+                    {name: '小米米家智能摄像机云台版',price: '199元'},
+                    {name: '小米小爱老师',price: '399元起'},
+                    {name: '小米米家智能门锁',price: '1299元起'},
+                    {name: 'Redmi小爱触屏音箱 8',price: '349元'},
+                    {name: '小米小爱触屏音箱',price: '199元起'},
+                    {name: 'Redmi小爱音箱 Play',price: '79元起'},
+                ]
+            ],
+            siteHeaderItemImg:[
+                [
+                    'img/header/1-1.jpg',
+                    'img/header/1-2.jpg',
+                    'img/header/1-3.jpg',
+                    'img/header/1-4.jpg',
+                    'img/header/1-5.jpg',
+                ],
+                [
+                    'img/header/2-1.jpg',
+                    'img/header/2-2.jpg',
+                    'img/header/2-3.jpg',
+                    'img/header/2-4.jpg',
+                    'img/header/2-5.jpg',
+                    'img/header/2-6.jpg',
+                ],
+                [
+                    'img/header/3-1.jpg',
+                    'img/header/3-2.jpg',
+                    'img/header/3-3.jpg',
+                    'img/header/3-4.jpg',
+                    'img/header/3-5.jpg',
+                    'img/header/3-6.jpg',
+                ],
+                [
+                    'img/header/4-1.jpg',
+                    'img/header/4-2.jpg',
+                    'img/header/4-3.jpg',
+                    'img/header/4-4.jpg',
+                    'img/header/4-5.jpg',
+                    'img/header/4-6.jpg',
+                ],
+                [
+                    'img/header/5-1.jpg',
+                    'img/header/5-2.jpg',
+                    'img/header/5-3.jpg',
+                    'img/header/5-4.jpg',
+                    'img/header/5-5.jpg',
+                    'img/header/5-6.jpg',
+                ],
+                [
+                    'img/header/6-1.jpg',
+                    'img/header/6-2.jpg',
+                    'img/header/6-3.jpg',
+                    'img/header/6-4.jpg',
+                    'img/header/6-5.jpg',
+                    'img/header/6-6.jpg',
+                ],
+                [
+                    'img/header/7-1.jpg',
+                    'img/header/7-2.jpg',
+                    'img/header/7-3.jpg',
+                    'img/header/7-4.jpg',
+                    'img/header/7-5.jpg',
+                    'img/header/7-6.jpg',
+                ],
+            ],
+            carStatus:false,
+            headerItemInf:false,
+            headerItemInfSel:1,
+            data:{
+                id:"正在加载",
+                detail:"正在加载",
+                price:"正在加载",
+                version:"正在加载",
+                color: "正在加载"
+            },
+            service: [
+                {text: '预约维修服务', unicode: '\ue6c4', link: 'https://www.mi.com/static/fast/'},
+                {text: '7天无理由退货', unicode: '\ue776', link: 'https://www.mi.com/service/exchange#back'},
+                {text: '15天免费换货', unicode: '\ue608', link: 'https://www.mi.com/service/exchange#free'},
+                {text: '满150元包邮', unicode: '\ue609', link: 'https://www.mi.com/service/exchange#mail'},
+                {text: '520余家售后网点', unicode: '\ue627', link: 'https://www.mi.com/static/maintainlocation/'}
+            ],
+            link: [
+                {
+                    title: '帮助中心',
+                    text: [
+                        {title: '账户管理', link: 'https://www.mi.com/service/account/register/'},
+                        {title: '购物指南', link: 'https://www.mi.com/service/buy/buytime/'},
+                        {title: '订单操作', link: 'https://www.mi.com/service/order/sendprogress/'}
+                    ]
+                },
+                {
+                    title: '服务支持',
+                    text: [
+                        {title: '售后政策', link: 'https://www.mi.com/service/exchange'},
+                        {title: '自助服务', link: 'http://fuwu.mi.com/'},
+                        {title: '相关下载', link: 'http://xiazai.mi.com/'}
+                    ]
+                },
+                {
+                    title: '线下门店',
+                    text: [
+                        {title: '小米之家', link: 'https://www.mi.com/c/xiaomizhijia/'},
+                        {title: '服务网点', link: 'https://www.mi.com/static/maintainlocation/'},
+                        {title: '零售网点', link: 'https://www.mi.com/static/familyLocation/'}
+                    ]
+                },
+                {
+                    title: '关于小米',
+                    text: [
+                        {title: '了解小米', link: 'https://www.mi.com/about/'},
+                        {title: '加入小米', link: 'http://hr.xiaomi.com/'},
+                        {title: '投资者关系', link: 'https://company.mi.com/zh-cn/ir/indexContent/index.html'},
+                        {title: '企业社会责任', link: 'https://www.mi.com/csr'},
+                        {title: '廉洁举报', link: 'https://integrity.mi.com/'}
+                    ]
+                },
+                {
+                    title: '关注我们',
+                    text: [
+                        {title: '新浪微博', link: 'http://weibo.com/xiaomishangcheng'},
+                        {title: '官方微信', link: 'https://www.mi.com/index.html#J_modalWeixin'},
+                        {title: '联系我们', link: 'https://www.mi.com/about/contact'},
+                        {title: '公益基金会', link: 'https://www.mi.com/foundation/index'}
+                    ]
+                },
+                {
+                    title: '特色服务',
+                    text: [
+                        {title: 'F 码通道', link: 'https://order.mi.com/queue/f2code'},
+                        {title: '礼物码', link: 'https://www.mi.com/giftcode/'},
+                        {title: '防伪查询', link: 'https://order.mi.com/misc/checkitem'}
+                    ]
+                }
+            ],
+            color:0,
+            version:0,
+            type: "1",
+            id: 0,
+            itemImg:[
+                [
+                    'img/show/1-1.jpg',
+                    'img/show/1-2.jpg',
+                    'img/show/1-3.jpg',
+                    'img/show/1-4.jpg',
+                    'img/show/1-5.jpg',
+                    'img/show/1-6.jpg',
+                    'img/show/1-7.jpg',
+                    'img/show/1-8.jpg'
+                ],
+                [
+
+                ]
+            ],
+        },
+        methods:{
+            carEnter:function () {
+                this.carStatus=true;
+            },
+            carLeave:function () {
+                this.carStatus=false;
+            },
+            headerItemEnter:function (index) {
+                if (index>=7){
+                    this.headerItemInf=false;
+                }else {
+                    this.headerItemInf=true;
+                    this.headerItemInfSel=index;
+                }
+            },
+            headerItemLeave:function () {
+                this.headerItemInf=false;
+            },
+            getData:function () {
+                // this.$http.get('./load',{params:{type:"all"}}).then(function (res) {
+                //     console.log(res.data[index])
+                //     this.data=res.data[index]
+                // })
+
+                this.$http.get('./load',{params:{type:this.type}}).then(function (res) {
+                    // console.log(res.data[index])
+                    this.data=res.data[this.id];
+                    this.data.price=transPrice(this.data.price)
+                    this.data.version=transPrice(this.data.version)
+                    this.data.color=transPrice(this.data.color)
+                })
+            },
+            sel_version:function (index) {
+                this.version=index
+            },
+            sel_color:function (index) {
+                this.color=index
+            },
+            setPar:function () {
+                let id=getQueryVariable("id");
+                let type=getQueryVariable("type");
+                console.log(id)
+                console.log(type)
+                this.id=id;
+                this.type=type;
+            }
+        }
+    })
+
+    vm.setPar()
+    vm.getData();
+</script>
+
+</html>

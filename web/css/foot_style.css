@@ -1,0 +1,146 @@
+footer{
+    display: flex;
+    margin: 0 auto;
+    flex-direction: column;
+    justify-content: space-between;
+    align-content: center;
+}
+
+.service{
+    margin-left: auto;
+    margin-right: auto;
+    width: 1226px;
+    padding: 30px 0;
+    margin-bottom: 30px;
+    border-bottom: 1px solid #e0e0e0;
+    background: #fff;
+    display: flex;
+    justify-content: center;
+}
+
+.service a{
+    width: 240px;
+    height: 25px;
+    border-left: 1px solid #e0e0e0;
+    font-size: 16px;
+    line-height: 25px;
+    color: #616161;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all .2s;
+}
+
+.service a:hover{
+    color: #ff6700;
+}
+
+.service a .iconfont{
+    font-size: 24px;
+    margin-right: 5px;
+}
+
+.link{
+    width: 1226px;
+    margin: 0 auto 30px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.link .item{
+    width: 160px;
+    height: 112px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.link .item .title{
+    margin: 0 0 26px;
+    font-size: 14px;
+    color: #424242;
+}
+
+.link .item a{
+    display: flex;
+    align-items: center;
+    transition: all .2s;
+    color: #757575;
+}
+
+.link .item a span{
+    font-size: 12px;
+}
+
+.link .item a:hover{
+    color: #ff6700;
+}
+
+.link .contact{
+    width: 251px;
+    height: 112px;
+    border-left: 1px solid #e0e0e0;
+    text-align: center;
+    color: #616161;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.link .contact .number{
+    margin: 0 0 5px;
+    font-size: 22px;
+    color: #ff6700;
+}
+
+.link .contact .text{
+    line-height: 16px;
+}
+
+.link .contact .customer{
+    background: #fff;
+    color: #ff6700;
+    width: 118px;
+    height: 28px;
+    line-height: 28px;
+    border: 1px solid #ff6700;
+    cursor: pointer;
+    transition: all .2s;
+}
+
+.link .contact .customer:hover{
+    background: #ff6700;
+    color: #fff;
+}
+
+.info{
+    width: 100%;
+    padding: 30px 0;
+    font-size: 12px;
+    background: #fafafa;
+}
+
+.info .info-container{
+    width: 1226px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.info .info-container .mi-logo img{
+    width: 57px;
+    height: 57px;
+    margin-right: 10px;
+}
+
+.info .info-container .text{
+    color: #757575;
+    text-align: left;
+    margin-right: auto;
+    line-height: 18px;
+
+    font-size: 14px;
+}
+
