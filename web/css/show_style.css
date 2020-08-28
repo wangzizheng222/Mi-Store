@@ -349,3 +349,50 @@ input[type="text"]{
 .no_sel:hover{
     color: orangered;
 }
+
+#center{
+    position: absolute;
+    top: 40px;
+    right: 350px;
+
+    width: 80px;
+    height: 200px;
+
+    display: flex;
+    flex-direction: column;
+
+    color: #424242;
+    background: #fff;
+    -webkit-box-shadow: 0 2px 10px rgba(0,0,0,.15);
+    box-shadow: 0 2px 10px rgba(0,0,0,.15);
+    /*overflow: hidden;*/
+    -webkit-transition: height .3s;
+    transition: height .3s;
+}
+
+#center div{
+    color: #424242;
+    background: #fff;
+
+    padding: 10px;
+    height: 20px;
+    width: 60px;
+
+    line-height: 20px;
+    text-align: center;
+
+    cursor: pointer;
+}
+
+#center div:hover{
+    cursor: pointer;
+    color: #ff6700;
+    background-color: rgb(245,245,245);
+}
+
+#user_name:hover{
+    color: #ff6700;
+    background-color: white;
+
+    cursor: pointer;
+}

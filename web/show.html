@@ -27,17 +27,26 @@
                 <span class="icon"></span>
                 购物车（<span>0</span>）
             </div>
-            <div id="car_expand"  v-show="carStatus" style="line-height: 95px;text-align: center">
+            <div id="car_expand" v-show="carStatus" style="line-height: 95px;text-align: center">
                 购物车中还没有商品，赶快选购吧！
+            </div>
+            <div id="center" v-show="centerStatus" @mouseleave="centerLeave">
+                <div>
+                    个人中心
+                </div>
+                <div @click="sign_out">
+                    退出登录
+                </div>
             </div>
 
             <div class="nav" style="float: right">
                 <span>
-                    <a href="sign_in.html">登录</a>
+                    <a href="sign_in.html" v-if="!status[1]">登录</a>
+                    <a v-if="status[1]" id="user_name" @mouseenter="centerEnter">{{status[0]}}</a>
                     <span style="margin: 0.3em;color: #424242">|</span>
                 </span>
                 <span>
-                    <a>注册</a>
+                    <a href="sign_up.html">注册</a>
                     <span style="margin: 0.3em;color: #424242">|</span>
                 </span>
                 <span>
@@ -163,7 +172,7 @@
                 </div>
             </div>
             <div id="buy">
-                <div style="width: 300px;background-color: #ff6700;color: white">
+                <div style="width: 300px;background-color: #ff6700;color: white" @click="addToCart">
                     加入购物车
                 </div>
                 <div style="width: 150px;background-color: #b0b0b0;color: white;margin-left: 10px">
@@ -447,6 +456,8 @@
 
                 ]
             ],
+            status: JSON.parse(localStorage.getItem("mi_status")),
+            centerStatus:false
         },
         methods:{
             carEnter:function () {
@@ -493,12 +504,43 @@
                 console.log(type)
                 this.id=id;
                 this.type=type;
+            },
+            getStatus:function () {
+                if (localStorage.getItem("mi_status")===null){
+                    setStatus("0",false)
+                    this.status=["0",false]
+                }
+            },
+            sign_out:function () {
+                localStorage.setItem("mi_status",JSON.stringify([1,false]))
+                this.status=[1,false]
+                window.location.href="index.html"
+            },
+            centerEnter:function () {
+                this.centerStatus=true;
+            },
+            centerLeave:function () {
+                this.centerStatus=false;
+            },
+            addToCart:function () {
+                this.$http.get("./addToCart",{params: {userName:this.status[0],
+                    version:this.data.version[this.version],
+                    color:this.data.color[this.color],
+                    name:this.data.name,
+                    num:1,
+                    itemId:this.data.id,
+                    price:this.data.price[this.version]}}).then(function (res) {
+                    window.location.href="./index.html"
+                },function () {
+                    console.log("failed")
+                })
             }
         }
     })
 
     vm.setPar()
-    vm.getData();
+    vm.getData()
+    vm.getStatus()
 </script>
 
 </html>

@@ -12,5 +12,13 @@ function getQueryVariable(variable)
         const pair = vars[i].split("=");
         if(pair[0] === variable){return pair[1];}
     }
-    returnfalse;
+    return false;
+}
+function setStatus(id,status) {
+    let mi_status = [id,status]
+    localStorage.setItem("mi_status",JSON.stringify(mi_status));
+}
+
+function getStatus() {
+    return JSON.parse(localStorage.getItem("mi_status"))
 }

@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cart</title>
+    <link type="text/css" rel="stylesheet" href="css/reset.css">
+    <link type="text/css" rel="stylesheet" href="css/cart.css">
+    <script type="text/javascript" src="js/vue.js"></script>
+    <script src="https://cdn.staticfile.org/vue-resource/1.5.1/vue-resource.min.js"></script>
+    <script src="js/methods.js"></script>
+
+    <link type="text/css" rel="stylesheet" href="css/foot.scss">
+    <link type="text/css" rel="stylesheet" href="css/foot_style.css">
+</head>
+<body>
+    <div id="app">
+        <div id="header">
+            <div id="nav">
+                <img src="img/logo-mi.png" alt="logo" id="logo">
+                <div id="title">
+                    我的购物车
+                </div>
+                <div id="header_inf">
+                    温馨提示：产品是否购买成功，以最终下单为准哦，请尽快结算
+                </div>
+            </div>
+        </div>
+
+        <div id="delConfirm" v-if="delConfirm">
+            <div style="height: 120px;width: 100%;line-height: 120px;text-align: center">
+                确认删除吗？
+            </div>
+            <div style="width: 100%;height: 380px;display: flex;flex-direction: row;justify-content: space-around;line-height: 380px">
+                <div style="width: 160px;height: 40px;line-height: 40px" @click="del()" id="del_con">
+                    确认
+                </div>
+                <div style="width: 160px;height: 40px;line-height: 40px" @click="delConfirm=false" id="del_can">
+                    取消
+                </div>
+            </div>
+        </div>
+
+        <div id="table">
+            <div id="table_title">
+                <div style="width: 110px">
+                    <span>
+                        <input type="checkbox" checked @click="checkbox_sel_all" id="checkbox_title">
+                    </span>
+                    全选
+                </div>
+                <div style="width: 120px">
+
+                </div>
+
+                <div style="width: 380px">
+                    商品名称
+                </div>
+
+                <div style="width: 158px">
+                    单价
+                </div>
+
+                <div style="width: 150px">
+                    数量
+                </div>
+
+                <div style="width: 201px">
+                    小计
+                </div>
+
+                <div style="width: 85px">
+                    操作
+                </div>
+            </div>
+
+            <div id="table_body">
+                <div id="table_item" v-for="(item,index) in list">
+                    <div style="width: 110px">
+                        <input type="checkbox" checked @click="checkbox_sel(index)" class="checkbox">
+                    </div>
+                    <div style="width: 120px">
+                        <img :src="img[parseInt(item.itemId)-1]" width="80" height="80">
+                    </div>
+                    <div style="width: 380px;color: #424242;font-size: 18px;font-weight: 400">
+                        {{item.name}} {{item.version}} {{item.color}}
+                    </div>
+                    <div style="width: 158px">
+                        {{item.price}}
+                    </div>
+                    <div style="width: 150px">
+                        {{item.num}}
+                    </div>
+                    <div style="width: 201px;color: #ff6700;">
+                        {{item.price*item.num}}
+                    </div>
+                    <div style="width: 85px" @click="delConfirmShow(index)" id="del">
+                        x
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="bottom">
+            <div id="go_on" @click="back">
+                继续购物
+            </div>
+            <div>
+                |
+            </div>
+            <div style="font-size: 14px;width: 200px">
+                共{{list.length}}件商品
+            </div>
+            <div style="float: right;color: #ff6700;width: 100px;font-size: 14px;margin-left: 450px;text-align: right">
+                合计:
+            </div>
+            <div style="font-size: 18px;color: #ff6700;">
+                {{totalPrice}}
+            </div>
+            <div style="float: right;color: #ff6700;width: 100px;font-size: 14px;text-align: left">
+                元
+            </div>
+            <div id="submit">
+                去结算
+            </div>
+        </div>
+
+        <footer>
+            <div class="service">
+                <a :href="item.link" v-for="(item,index) in service" :key="index">
+                    <span class="iconfont">{{item.unicode}}</span>
+                    <span class="text">{{item.text}}</span>
+                </a>
+            </div>
+            <div class="link">
+                <div class="item" v-for="(item,index) in link" :key="index">
+                    <span class="title">{{item.title}}</span>
+                    <a :href="key.link" v-for="(key,index) in item.text" :key="index">
+                        <span>{{key.title}}</span>
+                    </a>
+                </div>
+                <div class="contact">
+                    <span class="number">400-100-5678</span>
+                    <span class="text">周一至周日 8:00-18:00<br>（仅收市话费）</span>
+                    <span class="customer">人工客服</span>
+                </div>
+            </div>
+            <div class="info">
+                <div class="info-container">
+                    <div class="text">
+                        <p style="margin-bottom: 10px">小米商城|MIUI|米聊|多看书城|小米路由器|视频电话|小米天猫店|小米淘宝直营店|小米网盟|小米移动|隐私政策|Select Region</p>
+                        <p>©mi.com 京ICP证110507号 京ICP备10046444号 京公网安备11010802020134号 京网文[2014]0059-0009号 </p>
+                        <p>（京）网械平台备字（2018）第00005号 互联网药品信息服务资格证 (京)-非经营性-2014-0090 营业执照 医疗器械质量公告</p>
+                        <p>增值电信业务许可证 网络食品经营备案 京食药网食备201810017   食品经营许可证</p>
+                        <p>违法和不良信息举报电话：185-0130-1238，本网站所列数据，除特殊说明，所有数据均出自我司实验室测试</p>
+                    </div>
+                    <div class="info-logo">
+                        <img class="info-logo" src="assets/info-logo-1.png">
+                        <img class="info-logo" src="assets/info-logo-2.png">
+                        <img class="info-logo" src="assets/info-logo-3.png">
+                        <img class="info-logo" src="assets/info-logo-4.png">
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+<script>
+    let vm=new Vue({
+        el: '#app',
+        data: {
+            list: {
+                length:0
+            },
+            status: JSON.parse(localStorage.getItem("mi_status")),
+            img:[
+                'img/item/1-1.jpg',
+                'img/item/1-2.jpg',
+                'img/item/1-3.jpg',
+                'img/item/1-4.jpg',
+                'img/item/1-5.jpg',
+                'img/item/1-6.jpg',
+                'img/item/1-7.jpg',
+                'img/item/1-8.jpg'
+            ],
+            service: [
+                {text: '预约维修服务', unicode: '\ue6c4', link: 'https://www.mi.com/static/fast/'},
+                {text: '7天无理由退货', unicode: '\ue776', link: 'https://www.mi.com/service/exchange#back'},
+                {text: '15天免费换货', unicode: '\ue608', link: 'https://www.mi.com/service/exchange#free'},
+                {text: '满150元包邮', unicode: '\ue609', link: 'https://www.mi.com/service/exchange#mail'},
+                {text: '520余家售后网点', unicode: '\ue627', link: 'https://www.mi.com/static/maintainlocation/'}
+            ],
+            link: [
+                {
+                    title: '帮助中心',
+                    text: [
+                        {title: '账户管理', link: 'https://www.mi.com/service/account/register/'},
+                        {title: '购物指南', link: 'https://www.mi.com/service/buy/buytime/'},
+                        {title: '订单操作', link: 'https://www.mi.com/service/order/sendprogress/'}
+                    ]
+                },
+                {
+                    title: '服务支持',
+                    text: [
+                        {title: '售后政策', link: 'https://www.mi.com/service/exchange'},
+                        {title: '自助服务', link: 'http://fuwu.mi.com/'},
+                        {title: '相关下载', link: 'http://xiazai.mi.com/'}
+                    ]
+                },
+                {
+                    title: '线下门店',
+                    text: [
+                        {title: '小米之家', link: 'https://www.mi.com/c/xiaomizhijia/'},
+                        {title: '服务网点', link: 'https://www.mi.com/static/maintainlocation/'},
+                        {title: '零售网点', link: 'https://www.mi.com/static/familyLocation/'}
+                    ]
+                },
+                {
+                    title: '关于小米',
+                    text: [
+                        {title: '了解小米', link: 'https://www.mi.com/about/'},
+                        {title: '加入小米', link: 'http://hr.xiaomi.com/'},
+                        {title: '投资者关系', link: 'https://company.mi.com/zh-cn/ir/indexContent/index.html'},
+                        {title: '企业社会责任', link: 'https://www.mi.com/csr'},
+                        {title: '廉洁举报', link: 'https://integrity.mi.com/'}
+                    ]
+                },
+                {
+                    title: '关注我们',
+                    text: [
+                        {title: '新浪微博', link: 'http://weibo.com/xiaomishangcheng'},
+                        {title: '官方微信', link: 'https://www.mi.com/index.html#J_modalWeixin'},
+                        {title: '联系我们', link: 'https://www.mi.com/about/contact'},
+                        {title: '公益基金会', link: 'https://www.mi.com/foundation/index'}
+                    ]
+                },
+                {
+                    title: '特色服务',
+                    text: [
+                        {title: 'F 码通道', link: 'https://order.mi.com/queue/f2code'},
+                        {title: '礼物码', link: 'https://www.mi.com/giftcode/'},
+                        {title: '防伪查询', link: 'https://order.mi.com/misc/checkitem'}
+                    ]
+                }
+            ],
+            totalPrice:0,
+            delConfirm:false,
+            delIndex:0
+        },
+        methods: {
+            getItem:function () {
+                this.$http.post('./getCartItem',{name:this.status[0]},{emulateJSON:true}).then(function (res) {
+                    this.list=res.data
+                    console.log(res.data)
+                    this.getTotalPrice()
+                },function () {
+                    console.log("failed");
+                })
+            },
+
+            back:function () {
+                window.location.href="./index.html"
+            },
+
+            getTotalPrice:function () {
+                console.log(this.list)
+                let price=0;
+                for (let i=0;i<this.list.length;i++){
+                    price=price+parseInt(this.list[i].price)
+                }
+                this.totalPrice=price.toString()
+            },
+
+            checkbox_sel_all:function () {
+                let checkbox_list=document.getElementsByClassName("checkbox");
+                let checkbox_title=document.getElementById("checkbox_title");
+
+                for (let i=0;i<checkbox_list.length;i++){
+                    if (checkbox_list[i].checked){
+                        if (!checkbox_title.checked){
+                            this.totalPrice=this.totalPrice-parseInt(this.list[i].price)
+                            checkbox_list[i].checked = checkbox_title.checked;
+                        }
+                    } else {
+                        if (checkbox_title.checked){
+                            checkbox_list[i].checked = checkbox_title.checked;
+                            this.totalPrice=this.totalPrice+parseInt(this.list[i].price)
+                        }
+                    }
+                }
+            },
+
+            checkbox_sel:function (index) {
+                console.log(index)
+                let checkbox_list=document.getElementsByClassName("checkbox");
+
+                if (checkbox_list[index].checked){
+                    this.totalPrice=this.totalPrice+parseInt(this.list[index].price)
+                } else {
+                    this.totalPrice=this.totalPrice-parseInt(this.list[index].price)
+                }
+            },
+
+            del:function () {
+                this.$http.get("./delCartItem",{params: {index:this.delIndex,userName:this.status[0]}}).then(function (res) {
+                    console.log("done")
+                    this.getItem()
+                },function () {
+                    console.log("failed")
+                })
+                this.delConfirm=false
+            },
+
+            delConfirmShow: function (index) {
+                this.delConfirm=true
+                this.delIndex=index
+            }
+        },
+
+    })
+
+    vm.getItem()
+</script>
+</body>
+
+</html>

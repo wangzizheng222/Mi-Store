@@ -7,6 +7,7 @@
     <link type="text/css" rel="stylesheet" href="css/index_style.css">
     <script type="text/javascript" src="js/vue.js"></script>
     <script src="https://cdn.staticfile.org/vue-resource/1.5.1/vue-resource.min.js"></script>
+    <script src="js/methods.js"></script>
 
     <link type="text/css" rel="stylesheet" href="css/foot.scss">
     <link type="text/css" rel="stylesheet" href="css/foot_style.css">
@@ -28,21 +29,30 @@
                 </span>
             </div>
 
-            <div id="shop_car" @mouseenter="carEnter" @mouseleave="carLeave">
+            <div id="shop_car" @mouseenter="carEnter" @mouseleave="carLeave" @click="cart">
                 <span class="icon"></span>
                 购物车（<span>0</span>）
             </div>
-            <div id="car_expand"  v-show="carStatus" style="line-height: 95px;text-align: center">
+            <div id="car_expand" v-show="carStatus" style="line-height: 95px;text-align: center">
                     购物车中还没有商品，赶快选购吧！
+            </div>
+            <div id="center" v-show="centerStatus" @mouseleave="centerLeave">
+                <div>
+                    个人中心
+                </div>
+                <div @click="sign_out">
+                    退出登录
+                </div>
             </div>
 
             <div class="nav" style="float: right">
                 <span>
-                    <a href="sign_in.html">登录</a>
+                    <a href="sign_in.html" v-if="!status[1]">登录</a>
+                    <a v-if="status[1]" id="user_name" @mouseenter="centerEnter">{{status[0]}}</a>
                     <span style="margin: 0.3em;color: #424242">|</span>
                 </span>
                 <span>
-                    <a>注册</a>
+                    <a href="sign_up.html">注册</a>
                     <span style="margin: 0.3em;color: #424242">|</span>
                 </span>
                 <span>
@@ -355,6 +365,7 @@
                 '生活 箱包'
             ],
             carStatus:false,
+            centerStatus:false,
             headerItemInf:false,
             headerItemInfSel:1,
             list:null,
@@ -432,7 +443,8 @@
                         {title: '防伪查询', link: 'https://order.mi.com/misc/checkitem'}
                     ]
                 }
-            ]
+            ],
+            status: JSON.parse(localStorage.getItem("mi_status"))
         },
         methods:{
             carEnter:function () {
@@ -440,6 +452,12 @@
             },
             carLeave:function () {
                 this.carStatus=false;
+            },
+            centerEnter:function () {
+                this.centerStatus=true;
+            },
+            centerLeave:function () {
+                this.centerStatus=false;
             },
             headerItemEnter:function (index) {
                 if (index>=7){
@@ -462,12 +480,27 @@
             },
             go_to_show:function (id,type) {
                 window.location.href="./show.html?"+"type="+type+"&id="+id
+            },
+            getStatus:function () {
+                if (localStorage.getItem("mi_status")===null){
+                    setStatus("0",false)
+                    this.status=["0",false]
+                }
+            },
+            sign_out:function () {
+                localStorage.setItem("mi_status",JSON.stringify([1,false]))
+                this.status=[1,false]
+                window.location.href="index.html"
+            },
+            cart:function () {
+                window.location.href="./cart.html"
             }
 
 
         }
     })
     vm.getItem()
+    vm.getStatus()
 </script>
 
 </body>
