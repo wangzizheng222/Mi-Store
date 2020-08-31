@@ -23,7 +23,7 @@
                 </span>
             </div>
 
-            <div id="shop_car" @mouseenter="carEnter" @mouseleave="carLeave">
+            <div id="shop_car" @mouseenter="carEnter" @mouseleave="carLeave" @click="cart">
                 <span class="icon"></span>
                 购物车（<span>0</span>）
             </div>
@@ -92,7 +92,7 @@
                 <div class="itemShow" v-for="(item,index) in siteHeaderItem[headerItemInfSel]">
                     <div style="margin-top: 40px">
                         <!--                    <img src="img/header/{{headerItemInfSel}}-{{index}}.jpg">-->
-                        <img :src="siteHeaderItemImg[headerItemInfSel][index]">
+                        <img :src="siteHeaderItemImg[headerItemInfSel][index]" alt="img">
                     </div>
                     <div style="margin-top: 5px;text-align: center">
                         {{item.name}}
@@ -127,7 +127,7 @@
 
     <div id="show">
         <div id="img_show">
-            <img :src="itemImg[parseInt(type)-1][id]" height="560px" width="560px">
+            <img :src="itemImg[parseInt(type)-1][id]" height="560px" width="560px" alt="img">
         </div>
         <div id="buy_show">
             <div id="name">
@@ -212,10 +212,10 @@
                     <p>违法和不良信息举报电话：185-0130-1238，本网站所列数据，除特殊说明，所有数据均出自我司实验室测试</p>
                 </div>
                 <div class="info-logo">
-                    <img class="info-logo" src="assets/info-logo-1.png">
-                    <img class="info-logo" src="assets/info-logo-2.png">
-                    <img class="info-logo" src="assets/info-logo-3.png">
-                    <img class="info-logo" src="assets/info-logo-4.png">
+                    <img class="info-logo" src="assets/info-logo-1.png" alt="img">
+                    <img class="info-logo" src="assets/info-logo-2.png" alt="img">
+                    <img class="info-logo" src="assets/info-logo-3.png" alt="img">
+                    <img class="info-logo" src="assets/info-logo-4.png" alt="img">
                 </div>
             </div>
         </div>
@@ -225,7 +225,7 @@
 </body>
 
 <script>
-    var vm=new Vue({
+    let vm=new Vue({
         el: '#app',
         data:{
             tobarItem:[
@@ -530,10 +530,14 @@
                     num:1,
                     itemId:this.data.id,
                     price:this.data.price[this.version]}}).then(function (res) {
+                        console.log(res.data)
                     window.location.href="./index.html"
                 },function () {
                     console.log("failed")
                 })
+            },
+            cart:function () {
+                window.location.href="./cart.html"
             }
         }
     })

@@ -15,7 +15,7 @@ public class CartService {
     }
 
     public void addItem(String userName,String version,String color,String name
-    ,int num, String itemId, String price){
+    ,int num, String itemId, String price, String status){
         CartDaoImpl cartDao=new CartDaoImpl();
         Cart cart=new Cart();
 
@@ -26,6 +26,7 @@ public class CartService {
         cart.setVersion(version);
         cart.setNum(num);
         cart.setPrice(price);
+        cart.setStatus(status);
 
         cartDao.add(cart);
     }
@@ -40,5 +41,18 @@ public class CartService {
         for (Cart cart:list){
             cartDao.add(cart);
         }
+    }
+
+    public List<Cart> getTypeByName(String userName,String type){
+        List<Cart> list;
+        CartDaoImpl cartDao=new CartDaoImpl();
+
+        list=cartDao.findById(userName);
+
+        if (!type.equals("0")){
+            list.removeIf(item -> !item.getStatus().equals(type));
+        }
+
+        return list;
     }
 }

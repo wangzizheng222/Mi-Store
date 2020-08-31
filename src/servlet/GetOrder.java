@@ -1,5 +1,7 @@
 package servlet;
 
+import com.google.gson.Gson;
+import entity.Cart;
 import service.CartService;
 
 import javax.servlet.ServletException;
@@ -8,25 +10,26 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
-@WebServlet("/addToCart")
-public class AddToCart extends HttpServlet {
+@WebServlet("/get_order")
+public class GetOrder extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setCharacterEncoding("UTF-8");
         req.setCharacterEncoding("utf-8");
         resp.setContentType("application/json; charset=utf-8");
-
-        String userName=req.getParameter("userName");
-        String version=req.getParameter("version");
-        String color=req.getParameter("color");
-        String name=req.getParameter("name");
-        int num=Integer.parseInt(req.getParameter("num"));
-        String itemId=req.getParameter("itemId");
-        String price=req.getParameter("price");
+        resp.setContentType("text/html; charset=utf-8");
+        resp.setHeader("Content-type", "text/html;charset=UTF-8");
 
         CartService cartService=new CartService();
+        Gson gson=new Gson();
 
-        cartService.addItem(userName,version,color,name,num,itemId,price,"1");
+        String name=req.getParameter("name");
+        String type=req.getParameter("type");
+
+        List<Cart> list=cartService.getTypeByName(name,type);
+
+        resp.getWriter().write(gson.toJson(list));
     }
 }

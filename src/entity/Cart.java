@@ -8,6 +8,21 @@ public class Cart {
     private int num;
     private String itemId;
     private String price;
+    /**
+     * “0”：在购物车中，未提交订单
+     * “1”：待支付订单
+     * “2”：待收货订单
+     * “3”：回收站中的订单
+     */
+    private String status;
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public String getPrice() {
         return price;

@@ -21,7 +21,7 @@ public class CartDaoImpl implements CartDao {
         conn=DBUtils.getConnection();
 
         try {
-            String sql="insert into cart values (?,?,?,?,?,?,?)";
+            String sql="insert into cart values (?,?,?,?,?,?,?,?)";
             ps=conn.prepareStatement(sql);
 
             ps.setString(1,cart.getUserName());
@@ -31,6 +31,7 @@ public class CartDaoImpl implements CartDao {
             ps.setInt(5,cart.getNum());
             ps.setString(6,cart.getItemId());
             ps.setString(7,cart.getPrice());
+            ps.setString(8,cart.getStatus());
 
             update(conn,ps);
         } catch (SQLException e){
@@ -137,6 +138,7 @@ public class CartDaoImpl implements CartDao {
             cart.setNum(rs.getInt(5));
             cart.setItemId(rs.getString(6));
             cart.setPrice(rs.getString(7));
+            cart.setStatus(rs.getString(8));
 
             list.add(cart);
         }

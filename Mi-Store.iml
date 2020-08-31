@@ -23,5 +23,6 @@
     <orderEntry type="library" name="mysql-connector-java-8.0.16" level="project" />
     <orderEntry type="library" name="vue-resource" level="application" />
     <orderEntry type="library" name="gson-2.8.5" level="project" />
+    <orderEntry type="library" name="Dart SDK" level="project" />
   </component>
 </module>
