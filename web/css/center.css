@@ -363,3 +363,21 @@ input[type="text"]{
 .sel{
     color: #ff6700;
 }
+
+#center_title{
+    padding-top: 24px;
+
+    height: 200px;
+    width: 882px;
+
+    display: flex;
+    flex-direction: row;
+}
+
+#center_body{
+
+    height: 380px;
+    width: 882px;
+
+    border-top: 1px solid #e0e0e0;
+}

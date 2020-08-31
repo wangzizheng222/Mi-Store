@@ -197,8 +197,19 @@
             </div>
         </div>
 
-        <div class="body" v-if="currentPage===1">
+        <div class="body" v-if="currentPage===1" style="padding: 36px">
+            <div id="center_title">
+                <img src="img/user.jpg" alt="img" width="160" height="160" style="border-radius: 160px">
+                <div style="width: 302px">
+                    <div>
+                        {{user.name}}
+                    </div>
+                </div>
+            </div>
 
+            <div id="center_body">
+
+            </div>
         </div>
 
         <div class="body" v-if="currentPage===2">
@@ -506,6 +517,7 @@
 
                 ]
             ],
+            user:null
         },
         methods:{
             carEnter:function () {
@@ -545,6 +557,8 @@
             cart:function () {
                 window.location.href="./cart.html"
             },
+
+            // 设置当前界面
             setPage:function (index,module) {
                 if (module===1){
                     this.currentPage=0
@@ -556,10 +570,21 @@
                     this.currentPage=3
                 }
             },
+
+            // 获取订单信息
             getOderList:function (type) {
                 this.$http.get('./get_order',{params:{type:type,name:this.status[0]}}).then(function (res) {
                     console.log(res.data)
                     this.orderList=res.data
+                },function () {
+                    console.log("failed")
+                })
+            },
+            // 获取用户信息
+            getUser:function () {
+                this.$http.get("./get_user",{params: {name:this.status[0]}}).then(function (res) {
+                    console.log(res.data)
+                    this.user=res.data
                 },function () {
                     console.log("failed")
                 })
@@ -569,6 +594,7 @@
     })
     vm.getStatus()
     vm.getOderList(0)
+    vm.getUser()
 </script>
 </body>
 </html>
