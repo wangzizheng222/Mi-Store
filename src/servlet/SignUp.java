@@ -1,5 +1,6 @@
 package servlet;
 
+import com.google.gson.Gson;
 import service.UserService;
 
 import javax.servlet.ServletException;
@@ -23,7 +24,9 @@ public class SignUp extends HttpServlet {
         String password=req.getParameter("password");
 
         UserService userService=new UserService();
+        Gson gson=new Gson();
+
         String my_name=userService.sign_up(name,tel,mail,password);
-        resp.getWriter().write(my_name);
+        resp.getWriter().write(gson.toJson(my_name));
     }
 }

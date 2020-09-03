@@ -164,7 +164,7 @@
                     this.$http.post('./sign_up',{name: this.name,tel: this.tel,mail: this.mail,
                         password: this.password},{emulateJSON:true}).then(function (res) {
                         console.log(res.data)
-                        if (res.data!==null && res.data!=="-1"){
+                        if (res.data!==null && res.data!=="-1" && res.data!=="-2"){
                             setStatus(res.data,true)
                             window.location.href="./index.html"
                         } else if (res.data==="-1"){

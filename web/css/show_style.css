@@ -3,9 +3,9 @@ body{
     flex-direction: column;
 }
 
-body div{
-    border: 1px solid;
-}
+/*body div{*/
+/*    border: 1px solid;*/
+/*}*/
 
 #header_img{
     display: flex;

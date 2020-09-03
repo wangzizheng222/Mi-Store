@@ -37,7 +37,7 @@
                     购物车中还没有商品，赶快选购吧！
             </div>
             <div id="center" v-show="centerStatus" @mouseleave="centerLeave">
-                <div>
+                <div @click="center">
                     个人中心
                 </div>
                 <div @click="sign_out">
@@ -494,6 +494,9 @@
             },
             cart:function () {
                 window.location.href="./cart.html"
+            },
+            center:function () {
+                window.location.href="./center.html"
             }
 
 

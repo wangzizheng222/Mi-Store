@@ -70,7 +70,7 @@ public class UserService {
             userDao.add(user);
         } catch (Exception e){
             e.printStackTrace();
-            return null;
+            return "-2";
         }
 
 

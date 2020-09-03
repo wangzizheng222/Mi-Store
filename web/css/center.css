@@ -5,9 +5,9 @@ body{
     background: #f9f9f9;
 }
 
-body div{
-    border: 1px solid;
-}
+/*body div{*/
+/*    border: 1px solid;*/
+/*}*/
 
 #header_img{
     display: flex;
@@ -243,7 +243,7 @@ input[type="text"]{
     background-color: white;
 
     width: 234px;
-    height: 950px;
+    height: auto;
 
     margin-right: 14px;
 

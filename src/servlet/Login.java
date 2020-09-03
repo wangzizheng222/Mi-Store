@@ -1,5 +1,6 @@
 package servlet;
 
+import com.google.gson.Gson;
 import service.UserService;
 
 import javax.servlet.ServletException;
@@ -19,6 +20,7 @@ public class Login extends HttpServlet {
         String name=request.getParameter("name");
         String password=request.getParameter("password");
         UserService my_user=new UserService();
+        Gson gson = new Gson();
 
         String res = my_user.sign_in(name,password);
 //        if ( res == 1){
@@ -28,7 +30,7 @@ public class Login extends HttpServlet {
 //        } else if (res == 3) {
 //            request.getRequestDispatcher("2.html").forward(request,response);
 //        }
-        response.getWriter().write(res);
+        response.getWriter().write(gson.toJson(res));
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
