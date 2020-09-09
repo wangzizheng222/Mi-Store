@@ -199,16 +199,78 @@
 
         <div class="body" v-if="currentPage===1" style="padding: 36px">
             <div id="center_title">
-                <img src="img/user.jpg" alt="img" width="160" height="160" style="border-radius: 160px">
-                <div style="width: 302px">
-                    <div>
+                <div>
+                    <img src="img/user.jpg" alt="img" width="160" height="160" style="border-radius: 160px">
+                </div>
+                <div style="width: 302px;margin-left: 20px">
+                    <div style="font-size: 24px;font-weight: 200;color: #616161;">
                         {{user.name}}
+                    </div>
+                    <div style="color: #b0b0b0;font-size: 14px">
+                        早上好
+                    </div>
+                    <div style="color: #ff6700;font-size: 12px" class="my_pointer">
+                        修改个人信息
+                    </div>
+                </div>
+                <div style="margin-left: 50px">
+                    <div style="color: #757575;font-size: 14px">
+                        账户安全:普通
+                    </div>
+                    <div style="color: #757575;font-size: 14px">
+                        绑定手机:{{user.tel}}
+                    </div>
+                    <div style="color: #757575;font-size: 14px">
+                        绑定邮箱:{{user.mail}}
                     </div>
                 </div>
             </div>
 
             <div id="center_body">
-
+                <div style="margin-top: 40px">
+                    <img src="img/center/center-1.png" alt="img">
+                    <div style="display: flex;flex-direction: column">
+                        <div style="height: 50px;width: auto;line-height: 50px;margin-left: 20px">
+                            待支付的订单
+                        </div>
+                        <div style="height: 50px;width: auto;line-height: 50px;margin-left: 20px" class="my_pointer" @click="currentPage=0">
+                            查看待支付的订单
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top: 40px">
+                    <img src="img/center/center-2.png" alt="img">
+                    <div style="display: flex;flex-direction: column">
+                        <div style="height: 50px;width: auto;line-height: 50px;margin-left: 20px">
+                            待收货的订单
+                        </div>
+                        <div style="height: 50px;width: auto;line-height: 50px;margin-left: 20px" class="my_pointer" @click="currentPage=0">
+                            查看待收货的订单
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top: 40px">
+                    <img src="img/center/center-3.png" alt="img">
+                    <div style="display: flex;flex-direction: column">
+                        <div style="height: 50px;width: auto;line-height: 50px;margin-left: 20px">
+                            待评价的商品数
+                        </div>
+                        <div style="height: 50px;width: auto;line-height: 50px;margin-left: 20px" class="my_pointer">
+                            查看待评价的商品
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top: 40px">
+                    <img src="img/center/center-4.png" alt="img">
+                    <div style="display: flex;flex-direction: column">
+                        <div style="height: 50px;width: auto;line-height: 50px;margin-left: 20px">
+                            喜欢的商品
+                        </div>
+                        <div style="height: 50px;width: auto;line-height: 50px;margin-left: 20px" class="my_pointer">
+                            查看喜欢的商品
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -591,6 +653,7 @@
             },
 
             index:function () {
+                console.log("back to index")
                 window.location.href="./index.html"
             }
         }
